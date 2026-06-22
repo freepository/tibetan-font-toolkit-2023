@@ -68,19 +68,15 @@ These tools are experimental and should be treated as inspection and testing hel
 
 For now, installation is recommended only for testing.
 
-```bash
-git clone https://github.com/freepository/tibetan-font-toolkit-2023.git
-cd tibetan-font-toolkit-2023
-pip install -r requirements.txt
-```
+    git clone https://github.com/freepository/tibetan-font-toolkit-2023.git
+    cd tibetan-font-toolkit-2023
+    pip install -r requirements.txt
 
 If you are not familiar with Python environments, it is safer to use a virtual environment:
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+    python -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
 
 ---
 
@@ -88,25 +84,19 @@ pip install -r requirements.txt
 
 ### Diagnose a Font
 
-```bash
-python scripts/diagnose_font.py /path/to/font.ttf --json report.json
-```
+    python scripts/diagnose_font.py /path/to/font.ttf --json report.json
 
 This performs a read-only inspection of the font and writes a JSON report.
 
 ### Normalize Tibetan Text
 
-```bash
-python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
-```
+    python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
 
 This reads a UTF-8 text file and writes a normalized output file.
 
 ### Generate a Rendering Test Page
 
-```bash
-python scripts/generate_test_pages.py --font /path/to/font.ttf --output tibetan_test_page.html
-```
+    python scripts/generate_test_pages.py --font /path/to/font.ttf --output tibetan_test_page.html
 
 This generates an HTML page that can be opened in a browser to visually inspect Tibetan rendering behavior.
 
@@ -215,19 +205,15 @@ Tibetan Font Toolkit 是一个用于诊断、记录和逐步改善藏文排版�
 
 ## 测试安装
 
-```bash
-git clone https://github.com/freepository/tibetan-font-toolkit-2023.git
-cd tibetan-font-toolkit-2023
-pip install -r requirements.txt
-```
+    git clone https://github.com/freepository/tibetan-font-toolkit-2023.git
+    cd tibetan-font-toolkit-2023
+    pip install -r requirements.txt
 
 建议使用虚拟环境：
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+    python -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
 
 ---
 
@@ -235,21 +221,15 @@ pip install -r requirements.txt
 
 ### 检查字体
 
-```bash
-python scripts/diagnose_font.py /path/to/font.ttf --json report.json
-```
+    python scripts/diagnose_font.py /path/to/font.ttf --json report.json
 
 ### 规范化藏文文本
 
-```bash
-python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
-```
+    python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
 
 ### 生成藏文渲染测试页
 
-```bash
-python scripts/generate_test_pages.py --font /path/to/font.ttf --output tibetan_test_page.html
-```
+    python scripts/generate_test_pages.py --font /path/to/font.ttf --output tibetan_test_page.html
 
 ---
 
