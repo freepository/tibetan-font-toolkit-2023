@@ -1,143 +1,304 @@
 # Tibetan Font Toolkit
 
-A practical open-source toolkit for diagnosing, documenting, and resolving Tibetan script rendering problems across fonts, platforms, and typesetting software.
+A practical open-source toolkit for diagnosing, documenting, and gradually improving Tibetan script rendering problems across fonts, platforms, and typesetting software.
 
-**English** | [中文介绍](#中文介绍)
+一个用于诊断、记录和逐步改善藏文在字体、平台和排版软件中渲染问题的开源工具集。
 
 ---
 
-## What This Project Provides
+## Project Status: Early Preview
 
-Tibetan Font Toolkit provides small, focused utilities and reproducible test data for a real-world problem: **Tibetan stacked characters and complex glyph combinations frequently render incorrectly** in modern software.
+This project is under active development.
 
-### Current Tools (v0.1.0)
+The current tools are intended for testing, research, documentation, and community feedback. Please do **not** use them yet for production work, bulk font processing, commercial font repair, or important documents without manual verification.
+
+The project may still change quickly, including script behavior, command-line options, test data, and documentation structure.
+
+## 项目状态：早期预览版
+
+本项目仍在持续完善中。
+
+当前工具主要用于测试、研究、问题记录和社区反馈。暂不建议直接用于正式生产、批量处理字体、商业字体修复或重要文档；如需使用，请务必人工核验结果。
+
+项目仍可能快速变化，包括脚本行为、命令参数、测试数据和文档结构。
+
+---
+
+## What This Project Tries to Solve
+
+Tibetan script is a complex writing system. Consonants can stack vertically, vowel marks may appear above or below base letters, and proper rendering depends on Unicode handling, OpenType shaping, font tables, and application support.
+
+In real use, Tibetan text may render differently in:
+
+- Microsoft Word
+- Adobe InDesign
+- Google Docs
+- Web browsers
+- PDF export workflows
+- Different operating systems and font engines
+
+Common problems include:
+
+- Stacked characters displaying incorrectly
+- Vowel marks appearing in the wrong position
+- Legacy fonts using Private Use Area characters instead of standard Unicode
+- Missing or incomplete OpenType shaping tables
+- Inconsistent behavior between editing software and exported PDF
+- Color font tables causing unexpected black glyphs or export problems
+
+This toolkit is intended to make these problems easier to inspect, reproduce, document, and eventually fix.
+
+---
+
+## Current Tools
+
+The current early version includes several small Python utilities.
 
 | Tool | File | Purpose |
-|------|------|---------|
-| **Font Diagnostician** | `scripts/diagnose_font.py` | Read-only audit of OpenType tables, Unicode coverage, shaping features, and color tables |
-| **Text Normalizer** | `scripts/normalize_tibetan.py` | Fix whitespace, decompose precomposed chars, standardize punctuation, replace legacy PUA |
-| **Test Page Generator** | `scripts/generate_test_pages.py` | Generate HTML test pages with Tibetan text samples for cross-platform validation |
+|---|---|---|
+| Font Diagnostician | `scripts/diagnose_font.py` | Read-only inspection of font tables, Unicode coverage, OpenType shaping features, and possible rendering risks |
+| Tibetan Text Normalizer | `scripts/normalize_tibetan.py` | Normalize Tibetan text, whitespace, punctuation, selected legacy characters, and precomposed Tibetan characters |
+| Test Page Generator | `scripts/generate_test_pages.py` | Generate simple HTML test pages for checking Tibetan rendering across fonts and platforms |
 
-### Test Data
-
-- `examples/sample_tibetan_text.txt` — Representative Tibetan text samples
-- `examples/before_after.md` — Documented rendering problems and fixes
-- `examples/rendering-cases.md` — Platform-specific rendering case studies
-
-### Engineering
-
-- `tests/` — pytest test suite for all scripts
-- `.github/workflows/test.yml` — CI running tests on every push
-- `requirements.txt` — Declared Python dependencies
+These tools are experimental and should be treated as inspection and testing helpers, not final production utilities.
 
 ---
 
-## Quick Start
+## Installation
+
+For now, installation is recommended only for testing.
 
 ```bash
-# Clone
 git clone https://github.com/freepository/tibetan-font-toolkit-2023.git
 cd tibetan-font-toolkit-2023
-
-# Install dependencies
 pip install -r requirements.txt
+````
 
-# Run font diagnosis
-python scripts/diagnose_font.py /path/to/your/font.ttf --json report.json
+If you are not familiar with Python environments, it is safer to use a virtual environment:
 
-# Normalize Tibetan text
-python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
-
-# Generate HTML test page
-python scripts/generate_test_pages.py --font /path/to/your/font.ttf --output test.html
-
-# Run tests
-pytest
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
+
+---
+
+## Usage Examples
+
+### Diagnose a Font
+
+```bash
+python scripts/diagnose_font.py /path/to/font.ttf --json report.json
+```
+
+This performs a read-only inspection of the font and writes a JSON report.
+
+### Normalize Tibetan Text
+
+```bash
+python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
+```
+
+This reads a UTF-8 text file and writes a normalized output file.
+
+### Generate a Rendering Test Page
+
+```bash
+python scripts/generate_test_pages.py --font /path/to/font.ttf --output tibetan_test_page.html
+```
+
+This generates an HTML page that can be opened in a browser to visually inspect Tibetan rendering behavior.
+
+---
+
+## Roadmap
+
+Planned improvements include:
+
+* Add reproducible sample text files in `examples/`
+* Add before/after rendering case documentation
+* Add pytest-based tests for the current scripts
+* Add GitHub Actions CI
+* Add more Tibetan and Sanskrit stack test cases
+* Improve documentation for Word, InDesign, Google Docs, browser, and PDF workflows
+* Add safer font analysis reports for non-programmers
+* Investigate future repair utilities for specific font problems
 
 ---
 
 ## Why This Matters
 
-Tibetan script is a complex writing system where consonants stack vertically, vowel marks attach above and below, and syllable boundaries determine line-breaking. These features require correct OpenType shaping (`GSUB`, `GPOS`, `GDEF`) and proper Unicode handling.
+Many Tibetan users, editors, publishers, designers, and researchers depend on correct Tibetan text rendering. However, Tibetan rendering problems are often difficult to explain and reproduce because the cause may involve several layers:
 
-**Common problems this toolkit addresses:**
+* Unicode text encoding
+* Font glyph coverage
+* OpenType `GSUB`, `GPOS`, and `GDEF` tables
+* Application-specific shaping behavior
+* PDF export behavior
+* Legacy font encodings
 
-- Stacked character display issues (上下叠字错位)
-- Left-right structural glyph problems (左右结构异常)
-- Vowel marks rendering in wrong positions
-- Legacy fonts using Private Use Area (PUA) instead of standard Unicode
-- Color font tables (`SVG`, `COLR/CPAL`) causing black glyphs or export failures
-- InDesign, Word, Google Docs, and browser rendering inconsistencies
-
----
-
-## Project Status
-
-- ✅ Core diagnostic scripts implemented and tested
-- ✅ Unicode normalization pipeline working
-- ✅ HTML test page generator with embedded font support
-- ✅ pytest test suite
-- ✅ GitHub Actions CI
-- 🔄 Expanding test case library (community contributions welcome)
-- 🔄 Font repair utilities (planned for v0.2.0)
+This project aims to provide small, transparent, reproducible tools that help users and developers identify where a problem may be happening.
 
 ---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. We welcome:
+Contributions are welcome, especially:
 
-- Bug reports with specific fonts and software versions
-- Additional test cases for rare Tibetan/Sanskrit stacks
-- Platform-specific rendering documentation
-- Pull requests for new diagnostic tools
+* Real-world Tibetan rendering problems
+* Problematic sample text
+* Font compatibility reports
+* Screenshots from different platforms
+* Bug reports with software version information
+* Test cases for rare Tibetan or Sanskrit stacks
+* Improvements to scripts and documentation
+
+Please see `CONTRIBUTING.md` for contribution guidelines.
+
+---
+
+## Safety Notes
+
+This project is currently focused on diagnosis and documentation.
+
+Before using any output from this toolkit in important work:
+
+* Keep backups of original files
+* Manually inspect all generated results
+* Do not overwrite original documents or fonts
+* Treat normalization output as a draft that requires review
+* Test across the actual software you plan to use
 
 ---
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT License.
 
 ---
 
-## 中文介绍
+# 中文介绍
 
-### 藏文字体工具包
+## 藏文字体工具包
 
-一个用于诊断、记录和解决藏文在不同字体、平台和排版软件中渲染问题的开源工具集。
+Tibetan Font Toolkit 是一个用于诊断、记录和逐步改善藏文排版与字体渲染问题的开源工具集。
 
-### 当前提供的工具 (v0.1.0)
+本项目关注的问题包括：
 
-| 工具 | 文件 | 用途 |
-|------|------|------|
-| **字体诊断器** | `scripts/diagnose_font.py` | 只读审计 OpenType 表、Unicode 覆盖、排版特性、彩色表 |
-| **文本规范化** | `scripts/normalize_tibetan.py` | 修复空格、分解预组合字符、标准化标点、替换旧编码 |
-| **测试页生成** | `scripts/generate_test_pages.py` | 生成 HTML 测试页，用于跨平台字体渲染验证 |
+* 藏文上下叠字显示错位
+* 元音符号位置异常
+* 老旧字体使用私用区编码
+* OpenType 排版表不完整
+* Word、InDesign、Google Docs、浏览器和 PDF 导出结果不一致
+* 彩色字体表导致黑块、导出异常或显示问题
 
-### 快速开始
+---
+
+## 当前状态
+
+本项目目前是早期预览版，仍在持续完善。
+
+当前脚本主要用于测试、研究和问题记录。暂不建议直接用于正式生产、批量处理字体或重要文档。使用结果必须人工核验。
+
+---
+
+## 当前工具
+
+| 工具        | 文件                               | 用途                                    |
+| --------- | -------------------------------- | ------------------------------------- |
+| 字体诊断器     | `scripts/diagnose_font.py`       | 只读检查字体表、Unicode 覆盖、OpenType 排版特性和潜在风险 |
+| 藏文文本规范化工具 | `scripts/normalize_tibetan.py`   | 规范化藏文文本、空格、标点、部分旧编码和预组合字符             |
+| 渲染测试页生成器  | `scripts/generate_test_pages.py` | 生成 HTML 测试页，用于观察不同字体和平台下的藏文显示效果       |
+
+---
+
+## 测试安装
 
 ```bash
+git clone https://github.com/freepository/tibetan-font-toolkit-2023.git
+cd tibetan-font-toolkit-2023
 pip install -r requirements.txt
-python scripts/diagnose_font.py /path/to/font.ttf --json report.json
-python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
-python scripts/generate_test_pages.py --font /path/to/font.ttf --output test.html
-pytest
 ```
 
-### 解决的问题
+建议使用虚拟环境：
 
-- 上下叠字显示错位
-- 左右结构异常
-- 元音标记位置错误
-- 老旧字体使用私用区编码而非标准 Unicode
-- 彩色字体表导致黑块或导出失败
-- InDesign、Word、Google Docs 和浏览器渲染不一致
-
-### 参与贡献
-
-欢迎提交 Issue 和 Pull Request！详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
 
 ---
 
-*Maintained by [freepository](https://github.com/freepository) — Tibetan Font Toolkit v0.1.0*
+## 使用示例
+
+### 检查字体
+
+```bash
+python scripts/diagnose_font.py /path/to/font.ttf --json report.json
+```
+
+### 规范化藏文文本
+
+```bash
+python scripts/normalize_tibetan.py input.txt --output normalized.txt --stats
+```
+
+### 生成藏文渲染测试页
+
+```bash
+python scripts/generate_test_pages.py --font /path/to/font.ttf --output tibetan_test_page.html
+```
+
+---
+
+## 后续计划
+
+后续计划包括：
+
+* 增加 `examples/` 示例文本
+* 增加典型问题的 before/after 文档
+* 增加 pytest 测试
+* 增加 GitHub Actions 自动测试
+* 补充更多藏文和梵文叠字测试案例
+* 补充 Word、InDesign、Google Docs、浏览器和 PDF 的兼容性说明
+* 为非程序员用户生成更易读的诊断报告
+* 研究特定字体问题的安全修复工具
+
+---
+
+## 参与贡献
+
+欢迎提交：
+
+* 真实藏文显示问题
+* 问题文本样本
+* 字体兼容性报告
+* 不同平台截图
+* 软件版本信息
+* 罕见叠字测试案例
+* 脚本和文档改进
+
+请参考 `CONTRIBUTING.md`。
+
+---
+
+## 重要提醒
+
+本项目当前主要用于诊断和记录问题。
+
+在正式使用前，请务必：
+
+* 保留原始文件备份
+* 人工检查所有输出结果
+* 不要覆盖原始字体或重要文档
+* 将规范化结果视为草稿
+* 在实际使用的软件中重新测试
+
+---
+
+Maintained by `freepository`.
+
+```
+```
