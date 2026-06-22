@@ -14,20 +14,16 @@ This project aims to address various display and layout problems that Tibetan te
 
 ## Current Status
 
-- Documentation of common issues
+- Common Tibetan typesetting issues documentation
 - Planning practical scripts and tools
-
-## How to Use
-
-More scripts and examples will be added soon.
 
 ## Future Plans
 
 - Add practical Python scripts for Tibetan text processing
 - Create detailed documentation and test cases
-- Collect real-world typesetting problems from the community
+- Collect real-world problems from the community
 
-Contributions and Issue reports are highly welcome!
+Contributions, Issue reports, and Pull Requests are highly welcome!
 
 ---
 
